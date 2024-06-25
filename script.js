@@ -1,14 +1,14 @@
-const gameBoard = (function (){
-    let board = [
+const gameBoard = class {
+    board = [
         [null,null,null],
         [null,null,null],
         [null,null,null],
     ];
 
-    let playerTurn = 1;
-    let gameOver = false;
+    playerTurn = 1;
+    gameOver = false;
 
-    const play = (x,y) => {
+    play = (x,y) => {
         if (board[x][y] == null && !gameOver) {
             if (playerTurn % 2) {
                 domConn.playerTurnCard.innerHTML = "<div>" + playerTwo.name + "'s Turn</div>";
@@ -36,7 +36,7 @@ const gameBoard = (function (){
         }
     };
 
-    const restart = () => {
+    restart = () => {
         board = [
             [null,null,null],
             [null,null,null],
@@ -48,7 +48,7 @@ const gameBoard = (function (){
         domConn.display(board);
     };
 
-    const checkBoard = () => {
+    checkBoard = () => {
         if ((board[0][0] == board[0][1] && board[0][1] == board[0][2]) && board[0][0] != null) {
             return true;
         }
@@ -76,28 +76,48 @@ const gameBoard = (function (){
 
         return false;
     };
-    
-    return {board, play, restart};
-})();
+};
 
-const domConn = (function (){
-    let cells = [
+const domConn = class {
+    cells = [
         [document.getElementById("a"), document.getElementById("b"), document.getElementById("c")],
         [document.getElementById("d"), document.getElementById("e"), document.getElementById("f")],
         [document.getElementById("g"), document.getElementById("h"), document.getElementById("i")],
     ];
 
-    const playerTurnCard = document.getElementById("playerTurn");
+    playerTurnCard = document.getElementById("playerTurn");
+    cellsList = document.querySelectorAll(".cell");
+    newGame = document.getElementById("newGame");
+    restart = document.getElementById("restart");
+    playerOneFld = document.getElementById("playerOneFld");
+    playerTwoFld = document.getElementById("playerTwoFld");
+    dialog = document.querySelector("dialog");
 
-    let cellsList = document.querySelectorAll(".cell");
-
-    cellsList.forEach(function(cell) {
-        cell.addEventListener("click", () => {
-            gameBoard.play(Math.floor((cell.id.charCodeAt(0) - 97) / 3), (cell.id.charCodeAt(0) - 97) % 3);
+    constructor() {
+        this.dialog.showModal();
+        this.cellsList.forEach(function(cell) {
+            cell.addEventListener("click", () => {
+                gameBoard.play(Math.floor((cell.id.charCodeAt(0) - 97) / 3), (cell.id.charCodeAt(0) - 97) % 3);
+            });
         });
-    });
 
-    const display = (newBoard) => {
+        this.newGame.addEventListener("click", () => {
+            gameBoard.restart();
+            dialog.showModal();
+        });
+
+        this.restart.addEventListener("click", () => {
+            gameBoard.restart();
+        });
+
+        this.dialog.addEventListener("close", () => {
+            playerOne.name = playerOneFld.value;
+            playerTwo.name = playerTwoFld.value;
+            playerTurnCard.innerHTML = "<div>" + playerOne.name + "'s Turn</div>";
+        });
+    }
+
+    display = (newBoard) => {
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 if (newBoard[i][j] == "X")
@@ -109,42 +129,38 @@ const domConn = (function (){
             }
         }
     };
+};
 
-    const newGame = document.getElementById("newGame");
-    newGame.addEventListener("click", () => {
-        gameBoard.restart();
-        dialog.showModal();
-    });
+class playerOne {
 
-    const restart = document.getElementById("restart");
-    restart.addEventListener("click", () => {
-        gameBoard.restart();
-    });
+    constructor(name) {
+        this.name = name;
+        this.marker =  "X";
+    }
 
-    const playerOneFld = document.getElementById("playerOneFld");
-    const playerTwoFld = document.getElementById("playerTwoFld");
-    const dialog = document.querySelector("dialog");
-    dialog.addEventListener("close", () => {
-        playerOne.name = playerOneFld.value;
-        playerTwo.name = playerTwoFld.value;
-        playerTurnCard.innerHTML = "<div>" + playerOne.name + "'s Turn</div>";
-    });
+    get name() {
+        return this._name;
+    }
 
-    dialog.showModal();
+    set name(n) {
+        this._name = n;
+    }
+}
 
-    return {cells, display, playerTurnCard};
-})();
+class playerTwo{
+    name = "Player Two";
+    marker = "O";
 
-const playerOne = (function (){
-    let name = "Player One";
-    let marker = "X";
+    get name() {
+        return this.name;
+    }
 
-    return {name, marker};
-})();
+    set name(n) {
+        this.name = n;
+    }
+}
 
-const playerTwo = (function (){
-    let name = "Player Two";
-    let marker = "O";
-
-    return {name, marker};
-})();
+new playerOne("Player One");
+new playerTwo();
+new gameBoard();
+new domConn();
