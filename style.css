@@ -152,3 +152,9 @@ button:active {
     background-color: white;
     color: black;
 }
+
+@media screen and (orientation:portrait) {
+    body {
+        flex-direction: column;
+    }
+}
