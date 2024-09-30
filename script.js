@@ -101,9 +101,9 @@ const domConn = (function (){
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 if (newBoard[i][j] == "X")
-                    cells[i][j].innerHTML = "<img src='xMark.svg'>";
+                    cells[i][j].innerHTML = "<img src='img/xMark.svg'>";
                 else if (newBoard[i][j] == "O")
-                    cells[i][j].innerHTML = "<img src='oMark.svg'>";
+                    cells[i][j].innerHTML = "<img src='img/oMark.svg'>";
                 else
                     cells[i][j].innerHTML = "";
             }

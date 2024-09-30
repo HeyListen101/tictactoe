@@ -4,6 +4,10 @@
 }
 
 body {
+    background-image: url("img/bg.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     width: 100vw;
     height: 100vh;
     margin: 0;
@@ -17,6 +21,7 @@ dialog {
     border: none;
     height: 375px;
     width: 300px;
+    border-radius: 10px;
 }
 
 form {
@@ -97,6 +102,10 @@ input[type="text"] {
     cursor: pointer;
 }
 
+.cell:hover {
+    background-color: #dddddd;
+}
+
 #b, #h {
     border-left: 5px solid black;
     border-right: 5px solid black;
@@ -111,20 +120,20 @@ input[type="text"] {
     border: 5px solid black;
 }
 
-img[src="xMark.svg"] {
+img[src="img/xMark.svg"] {
     height: 75%;
     width: 75%;
     margin: 0;
 }
 
-img[src="oMark.svg"] {
+img[src="img/oMark.svg"] {
     height: 65%;
     width: 65%;
 }
 
 button {
     border: none;
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.5);
     color: white;
     border-radius: 10px;
     height: 50px;
@@ -133,6 +142,10 @@ button {
     transition: 0.25s;
     font-size: 25px;
     font-family: Futura;
+}
+
+button:hover {
+    opacity: 0.75;
 }
 
 button:active {
